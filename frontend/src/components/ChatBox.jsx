@@ -3,7 +3,7 @@ import { AppContext } from "../context/AppContext";
 
 const ChatBox = () => {
   const { token, doctors } = useContext(AppContext);
-  
+  const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       sender: "bot",
@@ -19,8 +19,8 @@ const ChatBox = () => {
   }, [messages]);
 
   const doctorsInfo =
-  doctors?.map((doc) => {
-    return `
+    doctors?.map((doc) => {
+      return `
 Doctor:
 - Name: ${doc.name}
 - Email: ${doc.email}
@@ -32,11 +32,10 @@ Doctor:
 - Fees: ${doc.fees}
 - Address: ${doc.address?.street || ""}, ${doc.address?.city || ""}, ${doc.address?.state || ""}, ${doc.address?.zip || ""}
 `;
-  }).join("\n") || "No doctor data available.";
+    }).join("\n") || "No doctor data available.";
 
   const askOpenRouter = async (question) => {
     setLoading(true);
-
     const promptMessages = [
       {
         role: "system",
@@ -57,7 +56,7 @@ ${doctorsInfo}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer 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",
+          Authorization: "Bearer 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",
         },
         body: JSON.stringify({
           model: "deepseek/deepseek-r1-0528:free",
@@ -97,11 +96,23 @@ ${doctorsInfo}`,
     if (e.key === "Enter") sendMessage();
   };
 
+  if (!isOpen) {
+    return (
+      <button
+        className="fixed bottom-6 right-6 bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition z-50"
+        onClick={() => setIsOpen(true)}
+      >
+        💬
+      </button>
+    );
+  }
+
   return (
     <div className="fixed bottom-6 right-6 w-[360px] h-[500px] bg-white rounded-xl shadow-2xl flex flex-col border border-gray-200 z-50">
       {/* Header */}
       <div className="bg-blue-600 text-white px-4 py-3 flex justify-between items-center rounded-t-xl">
-        <h2 className="font-semibold">🩺 Health Assistant</h2>
+        <h2 className="font-semibold">DocTime Health Assistant</h2>
+        <button onClick={() => setIsOpen(false)} className="text-white text-xl font-bold">&times;</button>
       </div>
 
       {/* Messages */}
