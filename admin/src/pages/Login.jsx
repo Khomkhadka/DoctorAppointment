@@ -129,7 +129,7 @@ const Login = () => {
                       <a
                         
                         className="cursor-pointer ml-1 hover:text-blue-300 text-blue-500"
-                        href="http://localhost:5173/login"
+                        href="https://doctor-appointment-gray-six.vercel.app"
                       >
                         Login Now
                       </a>
