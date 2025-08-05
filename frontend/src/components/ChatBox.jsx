@@ -56,7 +56,8 @@ ${doctorsInfo}`,
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer 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",
+          Authorization: `Bearer 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`,
+
         },
         body: JSON.stringify({
           model: "deepseek/deepseek-r1-0528:free",
